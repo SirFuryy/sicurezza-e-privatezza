@@ -17,5 +17,9 @@ _start:
     syscall
 
 
+# per uso solo mio:
+/*
+gcc -static -nostdlib chmod.s -o chmod.elf ; objcopy --dump-section .text=chmod.bin chmod.elf ; hd chmod.bin
+*/
 # imposta la flag con permesso di solo lettura per tutti, funziona per 
 # challenge 7
