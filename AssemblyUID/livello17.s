@@ -5,7 +5,7 @@ _start:
 	
     #porco dio vaffanculo a pwn che non spiega che cazzo c'è che non vuole
 	jmp jump_to_0x51 #jmp $+0x51	# 		#Jump to 0x51 bytes ahead
-nop
+        nop
 	nop	
 	nop
 	nop

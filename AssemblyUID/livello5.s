@@ -4,4 +4,4 @@
 _start:
 	mov %rax, %rdi #carico in rax la distanza
 	div %rsi #divido per il tempo
-	mov %rax, %rdx #carico in rax il resto contenuto in rdi
+	mov %rax, %rdx #carico in rax il resto contenuto in rdx
