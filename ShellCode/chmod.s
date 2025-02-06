@@ -19,7 +19,7 @@ _start:
 
 # per uso solo mio:
 /*
-gcc -static -nostdlib chmod.s -o chmod.elf ; objcopy --dump-section .text=chmod.bin chmod.elf ; hd chmod.bin
+gcc -static -nostdlib chmod.s -o shellcode.elf ; objcopy --dump-section .text=shellcode.bin shellcode.elf ; hd shellcode.bin
 */
 # imposta la flag con permesso di solo lettura per tutti, funziona per 
 # challenge 7

